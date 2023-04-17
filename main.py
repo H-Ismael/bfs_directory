@@ -29,3 +29,15 @@ def bfs_dir(htransform, src_root_dir: str, dst_root_dir=None):
             print("second arg must be a str")
         else:
             dst_current_f = dst_root_dir
+
+        if os.path.isdir(src_current_f):
+            if not os.path.exists(dst_current_f):
+                os.mkdir(dst_current_f)
+            for children in os.listdir(src_current_f):
+                src_children_path = f'{src_current_f}/{children}'
+                dst_children_path = f'{dst_current_f}/{children}'
+                if not os.path.isdir(src_children_path):
+                    htransform(src_children_path, dst_children_path)
+                if src_children_path not in visited:
+                    paths_q.append(src_children_path)
+                    visited.add(src_children_path)
